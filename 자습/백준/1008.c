@@ -9,6 +9,6 @@ int main()
     scanf("%lf %lf",&a,&b);
     res=a/b;
     printf("%.32g",res);
-    //%g for eliminating following zeros, 32 for accuracy
+    //%g for eliminating following zeros, 32 for prescision setting
     return 0;
 }
