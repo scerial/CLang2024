@@ -1,9 +1,9 @@
 #include <stdio.h>
 int main(){
-    int num, i=0;
+    int num;
     scanf("%d",&num);
     
-    while(i++<num){
+    while(num-->0){
         printf("*");
     }
     return 0;
