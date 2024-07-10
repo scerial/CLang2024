@@ -1,5 +1,6 @@
 #include <stdio.h>
-int main(){
+int main()
+{
     int step=0;
     while(step<10)
     {

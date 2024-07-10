@@ -1,7 +1,7 @@
 #include <stdio.h>
 int main()
 {
-    int step=0,dan;
+    int step=1,dan;
     scanf("%d",&dan);
 
     while(step<10)
