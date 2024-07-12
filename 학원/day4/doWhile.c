@@ -2,7 +2,7 @@
 int main(){
     do
     {
-        printf()
+        printf();
     } while ({/* condition */});//evaluates condition later - runs at least once
        
 }
