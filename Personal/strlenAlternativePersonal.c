@@ -1,32 +1,31 @@
 #include <stdio.h>
 #include <string.h>
 
-typedef struct length
-{
+typedef struct{
     int withSpc, noSpc;
-};
+}length;
 
-struct length length(char string[])
+length stringlen(char arr[])
 {
-    struct length res;
-    while (string[res.noSpc] != '\0')
+    length res={0,0};
+
+    while (arr[res.withSpc] != '\0')
     {
-       if(string[res.noSpc]=" ")
-       {
-         res.withSpc++;
-       }
-       res.noSpc++;
-       res.withSpc++;
+        if(arr[res.withSpc]!=' ')
+        {
+            res.noSpc++;
+        }
+        res.withSpc++;
     }
-    
     return res;
 }
+
 int main()
 {
-    char arr[] = "string";
+    char arr[] = "string length";
 
-    struct length length = length(arr);
-    printf("length-> w/space:%d w/o space:%d", length.withSpc, length.noSpc);
+    length res=stringlen(arr);
+    printf("no space:%d, with space:%d",res.noSpc,res.withSpc);
 
     return 0;
 }
