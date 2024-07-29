@@ -1,9 +1,9 @@
 #include <stdio.h>
 
 typedef struct
-    {
-        int i,j;
-    }doubleint;
+{
+    int i,j;
+}doubleint;
 
 
 doubleint swap(int i,int j)
