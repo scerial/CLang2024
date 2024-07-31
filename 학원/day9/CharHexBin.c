@@ -2,13 +2,12 @@
 #include <string.h>
 #include <math.h>
 
-int power(int toFind)
+int power(int *toFind)
 {
-    toFind =4;
     int sung =0;
     //int find;
     //몇승까지 가는지 확인
-    while (!((toFind - (int)pow(2, sung) < pow(2, sung))))
+    while (!((*toFind - (int)pow(2, sung) < pow(2, sung))))
     {
         sung++;
     }
@@ -16,10 +15,10 @@ int power(int toFind)
     return sung;
 }
 
-int binary(int cNum)
+int binary(int *cNum)
 {
     int result[8]={0};
-    int sung=power(cNum);
+    int sung=power(*cNum);
     for (int count=8-(sung-1);count=0;count--)
     {
         result[count]=0;
@@ -27,7 +26,7 @@ int binary(int cNum)
     
     for(int count=sung;count>0;count--)
     {
-        result[count]=cNum/pow(2,count);//loop (step 2 3)
+        result[count]=*cNum/pow(2,count);//loop (step 2 3)
     }
     return result;
 }
