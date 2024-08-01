@@ -2,19 +2,18 @@
 #include <string.h>
 #include <math.h>
 
-int power(int *cNum)
+int power(int *toFind)
 {
-    int cNum =4;
     int sung =0;
     //int find;
     //몇승까지 가는지 확인
-    while (!((cNum - (int)pow(2, sung) < (int)pow(2, sung))))
+    while (!((*toFind - (int)pow(2, sung) < (int)pow(2, sung))))
     {
         sung++;
     }
     printf("%d", sung);
 
-    return 0;
+    return sung;
 }
 
 int main()
@@ -24,7 +23,7 @@ int main()
     scanf("%d",&dec);
     printf("\n");
 
-    int string[]=char dec;
+    int string[]=(char)dec;
     int length=strlen(&string);
     
     int i;
