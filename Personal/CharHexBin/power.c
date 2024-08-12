@@ -4,15 +4,15 @@
 
 int main()
 {
-    int cNum =4;
+    int toFind='M';
     int sung =0;
     //int find;
     //몇승까지 가는지 확인
-    while (!((cNum - (int)pow(2, sung) < pow(2, sung))))
+    while (!((toFind - (int)pow(2, sung) < (int)pow(2, sung))))
     {
         sung++;
     }
-    printf("%d", sung);
-
+    printf("%d",sung);
+    
     return 0;
 }
