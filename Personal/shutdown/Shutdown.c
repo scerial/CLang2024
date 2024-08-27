@@ -63,9 +63,8 @@ void shutdown_timed()
     printf("Shutting down in %d:%d:%d", timer.hr, timer.min, timer.sec);
 
     sprintf_s(command,"shutdown -s -t %d", seconds(timer));
-    //Sleep(500);
-    printf(command);
-    //system(command);
+    Sleep(500);
+    system(command);
 }
 
 void abort()
