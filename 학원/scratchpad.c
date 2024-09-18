@@ -1,112 +1,81 @@
-#include <stdio.h>
-#include <stdlib.h>
+#ifndef UNICODE
+#  define UNICODE
+#endif // UNICODE
+#include <stdlib.h> // EXIT_FAILURE
 #include <windows.h>
 
-struct time
-{
-    int hr;
-    int min;
-    int sec;
-};
+LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
-struct time hms(int seconds)
+int APIENTRY wWinMain(
+    HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR lpCmdLine, int nCmdShow)
 {
-    struct time hms = { 0,0,0 };
+  static wchar_t szAppName[] = L"HELLOWINDOWS";
+  HWND           hWnd;
+  MSG            msg;
+  WNDCLASS       wndclass = {};
 
-    hms.hr = seconds / 3600;//get hrs
-    hms.min = (seconds % 3600) / 60;//get min
-    hms.sec = seconds % 60;//get sec
-    return hms;
+  wndclass.style         = CS_HREDRAW | CS_VREDRAW;
+  wndclass.lpfnWndProc   = WndProc;
+  wndclass.hInstance     = hInstance;
+  wndclass.hIcon         = LoadIcon(NULL, IDI_APPLICATION);
+  wndclass.hCursor       = LoadCursor(NULL, IDC_ARROW);
+  wndclass.hbrBackground = (HBRUSH)GetStockObject(COLOR_WINDOW + 1);
+  wndclass.lpszClassName = szAppName;
+
+  if ( !RegisterClass(&wndclass) )
+  {
+    return EXIT_FAILURE;
+  }
+
+  hWnd = CreateWindowW(
+      szAppName,
+      L"Hello Windows Application",
+      WS_OVERLAPPEDWINDOW,
+      CW_USEDEFAULT,
+      CW_USEDEFAULT,
+      CW_USEDEFAULT,
+      CW_USEDEFAULT,
+      NULL,
+      NULL,
+      hInstance,
+      NULL);
+  ShowWindow(hWnd, nCmdShow);
+  UpdateWindow(hWnd);
+
+  while ( GetMessage(&msg, NULL, 0, 0) )
+  {
+    TranslateMessage(&msg);
+    DispatchMessage(&msg);
+  }
+
+  return msg.wParam;
 }
 
-int seconds(struct time time)
+LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    int res;
-    res = time.hr * 3600;
-    res = res + time.min * 60;
-    res = res + time.sec;
-    return res;
-}
+  HDC         hDC;
+  PAINTSTRUCT ps;
+  RECT        rect;
 
+  switch ( message )
+  {
+  case WM_CREATE:
+    return 0;
+  case WM_PAINT:
+    hDC = BeginPaint(hWnd, &ps);
+    GetClientRect(hWnd, &rect);
+    DrawText(
+        hDC,
+        TEXT("Hello, Windows!"),
+        -1,
+        &rect,
+        DT_SINGLELINE | DT_CENTER | DT_VCENTER);
+    EndPaint(hWnd, &ps);
+    return 0;
+  case WM_DESTROY:
+    PostQuitMessage(0);
+    return 0;
+  }
 
-int confirm(int option)
-{
-    while (getchar() != '\n') continue; //clears bloat from buffer
-    char ans;
-    printf("You have selected option %d.\n", option);
-    printf("Proceed? (Y/N): ");
-    ans=getchar();
-
-    if (ans == 'Y' || ans == 'y')
-    {
-        printf("Proceeding...");
-        return 1;
-    }
-    
-     printf("Aborting...");
-     return 0;
-}
-
-void shutdown_now()
-{
-    printf("Shutting down now...");
-    Sleep(1000);
-    system("shutdown -s -t 0");
-}
-
-void shutdown_timed()
-{
-    struct time timer = { 0,0,0 };
-    char command[20];
-    printf("Enter time in hh:mm:ss format: ");
-    scanf_s("%d:%d:%d", &timer.hr, &timer.min, &timer.sec);
-    printf("Shutting down in %d:%d:%d", timer.hr, timer.min, timer.sec);
-
-    sprintf_s(command,"shutdown -s -t %d", seconds(timer));
-    //Sleep(500);
-    printf(command);
-    //system(command);
-}
-
-void abort()
-{
-    printf("Aborting shutdown\n");
-    system("shutdown -a");
-}
-
-void execute(int option)
-{
-    switch (option)
-    {
-    case 1:
-        shutdown_now();
-        break;
-    case 2:
-        shutdown_timed();
-        break;
-    case 3:
-        abort();
-        break;
-    default:
-        break;
-    }
-}
-
-int main()
-{
-    printf("===========================================\n");
-    printf("           Jake's Shutdown Menu\n");
-    printf("===========================================\n\n");
-    printf("    select option...\n");
-    printf("        1. Shutdown Now\n       2. Shutdown in ('time')\n      3. Abort Scheduled\n");
-    printf("\n    Option: ");
-
-    //char i = getchar();
-    int option;
-    scanf_s("%d", &option);
-    int go=confirm(option);
-    if (go == 1)
-        execute(option);
-    
-    return 0;    
+  return DefWindowProc(hWnd, message, wParam, lParam);
 }
